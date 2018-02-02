@@ -199,6 +199,27 @@ class MethodProphecy
     }
 
     /**
+     * Sets return self promise to the prophecy.
+     *
+     * @see \Prophecy\Promise\ReturnPromise
+     *
+     * @return $this
+     */
+    public function willReturnSelf()
+    {
+        if ($this->voidReturnType) {
+            throw new MethodProphecyException(
+                "The method \"$this->methodName\" has a void return type, and so cannot return anything",
+                $this
+            );
+        }
+
+        return $this->will(function () {
+            return $this->objectProphecy->reveal();
+        });
+    }
+
+    /**
      * Sets throw promise to the prophecy.
      *
      * @see \Prophecy\Promise\ThrowPromise
